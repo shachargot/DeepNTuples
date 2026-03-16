@@ -21,9 +21,9 @@ cmsRun DeepNtuplizerAK8Scout.py
 ### DeepNtuplizer
 
 `NTupler/test/DeepNtuplizerAK8Scout.py`: 
-* Makes ScoutingFatPFJetsReclustered                         // minPt changed to 25.0, any other custom changes needed?
-* Scouting jets matched to offline fat slimmedJetsAK8      // Do offline jets have pt cut? 
-* Offline fat jets gen-matched to ak8GenJetsWithNu/ak8GenJetsWithNoNu    // AK8GenJets with/without neutrinos - I don't think we need this
+* Makes ScoutingFatPFJetsReclustered                         (minPt changed to 25.0, any other custom changes needed?)
+* Scouting jets matched to offline fat slimmedJetsAK8      (Do offline jets have pt cut?)
+* Offline fat jets gen-matched to ak8GenJetsWithNu/ak8GenJetsWithNoNu    (AK8GenJets with/without neutrinos - I don't think we need this)
 * Calls `NTupler/plugins/DeepNtuplizer.cc` with config `NTupler/python/DeepNtuplizer_cfi.py' 
 
 `NTupler/plugins/DeepNTuplizer.cc`:
@@ -31,8 +31,8 @@ cmsRun DeepNtuplizerAK8Scout.py
 * Calls all modules on each "Uncorrected" offline fatjet in each event
 
 
-`NTupler/python/DeepNtuplizer\_cfi.py':
-* jetMinPt changed to 25.0       // Any other changes needed? 
+`NTupler/python/DeepNtuplizer\_cfi.py`:
+* jetMinPt changed to 25.0       (Any other changes needed?)
 * Uses ParticleNet-MD tagger by default  
 
 ### Modules 
@@ -40,11 +40,13 @@ All operate on `slimmedJetsAK8`. Definitions found in `Ntupler/src`
  
 `JetInfoFiller`: 
 * Gets jet flavor (definition in `/BTagHelpers/src/FlavorDefinition.cc`)
+
 **Note**:  `usePhysForLightAndUndefined` variable changed to `true` to allow gluon jets 
 
 `FatJetInfoFiller`: 
 * Gen-matches jet to particle by pdgId, then fills all kinematics 
 * New upsiloni\_label created in `/FatJetHelpers/src/FatJetMatching.cc` (Currently only Upsilon->3g implemented!) 
+
 **Note**: QCD labels are currently default: bb, b, cc, c, others. May need to change later. 
 
 `ScoutingFatJetCompleteFiller`: 
