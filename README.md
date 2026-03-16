@@ -22,9 +22,9 @@ cmsRun DeepNtuplizerAK8Scout.py
 
 `NTupler/test/DeepNtuplizerAK8Scout.py`: 
 * Makes ScoutingFatPFJetsReclustered                         (minPt changed to 25.0, any other custom changes needed?)
-* Scouting jets matched to offline fat slimmedJetsAK8      (Do offline jets have pt cut?)
-* Offline fat jets gen-matched to ak8GenJetsWithNu/ak8GenJetsWithNoNu    (AK8GenJets with/without neutrinos - I don't think we need this)
-* Calls `NTupler/plugins/DeepNtuplizer.cc` with config `NTupler/python/DeepNtuplizer_cfi.py' 
+* Scouting jets matched to offline fat slimmedJetsAK8      (Do offline jets have pt cut by default that we need to change?)
+* Offline fat jets gen-matched to ak8GenJetsWithNu/ak8GenJetsWithNoNu    (AK8GenJets with/without neutrinos - I don't think we need this distinction)
+* Calls `NTupler/plugins/DeepNtuplizer.cc` with config `NTupler/python/DeepNtuplizer_cfi.py`
 
 `NTupler/plugins/DeepNTuplizer.cc`:
 * Creates modules for Jets, FatJets, ScoutingJets, SVs, and PFCands
