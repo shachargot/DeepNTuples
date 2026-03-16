@@ -2,6 +2,10 @@
 
 ## Setup
 ```bash
+cmsrel CMSSW_15_0_14
+cd CMSSW_15_0_14/src
+cmsenv
+
 git cms-addpkg PhysicsTools/ONNXRuntime
 git clone https://github.com/colizz/DNNTuples.git DeepNTuples -b dev-nanov15
 $CMSSW_BASE/src/DeepNTuples/Ntupler/scripts/install_onnxruntime.sh  # Is this needed?
