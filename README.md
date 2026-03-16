@@ -2,15 +2,54 @@
 
 ## Setup
 ```bash
-cmsrel CMSSW_15_0_0
-cd CMSSW_15_0_0/src
-cmsenv
+git cms-addpkg PhysicsTools/ONNXRuntime
+git clone https://github.com/colizz/DNNTuples.git DeepNTuples -b dev-nanov15
+$CMSSW_BASE/src/DeepNTuples/Ntupler/scripts/install_onnxruntime.sh  # Is this needed?
 
-# clone this repo into "DeepNTuples" directory
-git clone git@github.com:colizz/DNNTuples.git DeepNTuples -b dev-nanov15
+# If onnxruntime is not up to date
+cp /cvmfs/cms.cern.ch/el9_amd64_gcc12/cms/cmssw/CMSSW_15_0_4/config/toolbox/el9_amd64_gcc12/tools/selected/onnxruntime.xml $CMSSW_BASE/ORT_INSTALL/onnxruntime.xml 
+scram setup $CMSSW_BASE/ORT_INSTALL/onnxruntime.xml
 
-scram b -j8
+scram b -j 8
+
+cd Ntupler/test
+cmsRun DeepNtuplizerAK8Scout.py
 ```
+
+## Some documentation:
+
+### DeepNtuplizer
+
+`NTupler/test/DeepNtuplizerAK8Scout.py`: 
+* Makes ScoutingFatPFJetsReclustered                         // minPt changed to 25.0, any other custom changes needed?
+* Scouting jets matched to offline fat slimmedJetsAK8      // Do offline jets have pt cut? 
+* Offline fat jets gen-matched to ak8GenJetsWithNu/ak8GenJetsWithNoNu    // AK8GenJets with/without neutrinos - I don't think we need this
+* Calls `NTupler/plugins/DeepNtuplizer.cc` with config `NTupler/python/DeepNtuplizer_cfi.py' 
+
+`NTupler/plugins/DeepNTuplizer.cc`:
+* Creates modules for Jets, FatJets, ScoutingJets, SVs, and PFCands
+* Calls all modules on each "Uncorrected" offline fatjet in each event
+
+
+`NTupler/python/DeepNtuplizer\_cfi.py':
+* jetMinPt changed to 25.0       // Any other changes needed? 
+* Uses ParticleNet-MD tagger by default  
+
+### Modules 
+All operate on `slimmedJetsAK8`. Definitions found in `Ntupler/src`
+ 
+`JetInfoFiller`: 
+* Gets jet flavor (definition in `/BTagHelpers/src/FlavorDefinition.cc`)
+**Note**:  `usePhysForLightAndUndefined` variable changed to `true` to allow gluon jets 
+
+`FatJetInfoFiller`: 
+* Gen-matches jet to particle by pdgId, then fills all kinematics 
+* New upsiloni\_label created in `/FatJetHelpers/src/FatJetMatching.cc` (Currently only Upsilon->3g implemented!) 
+**Note**: QCD labels are currently default: bb, b, cc, c, others. May need to change later. 
+
+`ScoutingFatJetCompleteFiller`: 
+* Same as `FatJetInfoFiller` for scouting fatjets.
+
 
 <!-- 
 ## Submit jobs via CRAB

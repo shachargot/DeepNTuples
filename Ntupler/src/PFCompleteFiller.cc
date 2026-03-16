@@ -627,7 +627,7 @@ bool PFCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const JetHelper&
 
   }
 
-
+  std::cout << "PF return true" << std::endl;
   return true;
 }
 

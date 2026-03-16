@@ -31,7 +31,7 @@ JetFlavor FlavorDefinition::jet_flavour(const pat::Jet& jet, bool usePhysForLigh
   int hflav = abs(jet.hadronFlavour());
   int pflav = abs(jet.partonFlavour());
   int physflav = 0;
-  if(jet.genParton()) physflav=abs(jet.genParton()->pdgId());
+  if(jet.genParton()) physflav=abs(jet.genParton()->pdgId()); 
   std::size_t nbs = jet.jetFlavourInfo().getbHadrons().size();
   std::size_t ncs = jet.jetFlavourInfo().getcHadrons().size();
 

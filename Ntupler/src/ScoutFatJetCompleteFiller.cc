@@ -42,35 +42,38 @@ void ScoutFatJetCompleteFiller::book() {
   // assign labels individually to scouting jet:
 
   // truth labels
-  data.add<int>("scoutfj_isTop", 0);
-  data.add<int>("scoutfj_isW", 0);
-  data.add<int>("scoutfj_isZ", 0);
-  data.add<int>("scoutfj_isH2p", 0);
-  data.add<int>("scoutfj_isHWW", 0);
-  data.add<int>("scoutfj_isHZZ", 0);
+  // data.add<int>("scoutfj_isTop", 0);
+  // data.add<int>("scoutfj_isW", 0);
+  // data.add<int>("scoutfj_isZ", 0);
+  // data.add<int>("scoutfj_isH2p", 0);
+  // data.add<int>("scoutfj_isHWW", 0);
+  // data.add<int>("scoutfj_isHZZ", 0);
   data.add<int>("scoutfj_isQCD", 0);
+  data.add<int>("scoutfj_isUpsilon",0);
 
   data.add<int>("scoutfj_label", 0);
   if (labels_.empty()) {
     // initialize labels
     if (isMDTagger_) {
-      for (auto& l: labelTop_)  labels_.push_back("Top_" + l);
-      for (auto& l: labelH2p_)  labels_.push_back("H_" + l);
-      for (auto& l: labelHWW_)  labels_.push_back("H_WW_" + l);
-      for (auto& l: labelHWW_)  labels_.push_back("H_WxWx_" + l);
-      for (auto& l: labelHWW_)  labels_.push_back("H_WxWxStar_" + l);
-      for (auto& l: labelHZZ_)  labels_.push_back("H_ZZ_" + l);
-      for (auto& l: labelHZZ_)  labels_.push_back("H_ZxZx_" + l);
-      for (auto& l: labelHZZ_)  labels_.push_back("H_ZxZxStar_" + l);
+      // for (auto& l: labelTop_)  labels_.push_back("Top_" + l);
+      // for (auto& l: labelH2p_)  labels_.push_back("H_" + l);
+      // for (auto& l: labelHWW_)  labels_.push_back("H_WW_" + l);
+      // for (auto& l: labelHWW_)  labels_.push_back("H_WxWx_" + l);
+      // for (auto& l: labelHWW_)  labels_.push_back("H_WxWxStar_" + l);
+      // for (auto& l: labelHZZ_)  labels_.push_back("H_ZZ_" + l);
+      // for (auto& l: labelHZZ_)  labels_.push_back("H_ZxZx_" + l);
+      // for (auto& l: labelHZZ_)  labels_.push_back("H_ZxZxStar_" + l);
+      // for (auto& l: labelH2pExt_) labels_.push_back("Hext_" + l);
+      // for (auto& l: labelHHVExt_) labels_.push_back("H_HVext_" + l);
       for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
-      for (auto& l: labelH2pExt_) labels_.push_back("Hext_" + l);
-      for (auto& l: labelHHVExt_) labels_.push_back("H_HVext_" + l);
+      for (auto& l: labelUpsilon_)  labels_.push_back("Upsilon_" + l);
     } else {
-      for (auto& l: labelTop_)  labels_.push_back("Top_" + l);
-      for (auto& l: labelH2p_)  labels_.push_back("H_" + l);
-      for (auto& l: labelW_)    labels_.push_back("W_" + l);
-      for (auto& l: labelZ_)    labels_.push_back("Z_" + l);
+      // for (auto& l: labelTop_)  labels_.push_back("Top_" + l);
+      // for (auto& l: labelH2p_)  labels_.push_back("H_" + l);
+      // for (auto& l: labelW_)    labels_.push_back("W_" + l);
+      // for (auto& l: labelZ_)    labels_.push_back("Z_" + l);
       for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
+      for (auto& l: labelUpsilon_)  labels_.push_back("Upsilon_" + l);
     }
 
     if (debug_) {
@@ -200,37 +203,38 @@ bool ScoutFatJetCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const J
     auto& parts = fjmatch_.getResult().particles;
 
     // update the label for HWW and HZZ
-    if (fjlabel.rfind("H_WW", 0) == 0 && isHVV2DVarMassSample_) {
-      float mass_asymm = std::abs(resparts[1]->mass() - resparts[2]->mass()) / (resparts[1]->mass() + resparts[2]->mass());
-      if (mass_asymm < 0.1) {
-        fjlabel.replace(fjlabel.find("H_WW"), 4, "H_WxWx");
-      } else {
-        fjlabel.replace(fjlabel.find("H_WW"), 4, "H_WxWxStar");
-      }
-      if (debug_) std::cout << "V masses: " << resparts[1]->mass() << " " << resparts[2]->mass() << " Asymm: " << mass_asymm << std::endl;
-    }
-    if (fjlabel.rfind("H_ZZ", 0) == 0 && isHVV2DVarMassSample_) {
-      float mass_asymm = std::abs(resparts[1]->mass() - resparts[2]->mass()) / (resparts[1]->mass() + resparts[2]->mass());
-      if (mass_asymm < 0.1) {
-        fjlabel.replace(fjlabel.find("H_ZZ"), 4, "H_ZxZx");
-      } else {
-        fjlabel.replace(fjlabel.find("H_ZZ"), 4, "H_ZxZxStar");
-      }
-      if (debug_) std::cout << "V masses: " << resparts[1]->mass() << " " << resparts[2]->mass() << " Asymm: " << mass_asymm << std::endl;
-    }
+    // if (fjlabel.rfind("H_WW", 0) == 0 && isHVV2DVarMassSample_) {
+    //   float mass_asymm = std::abs(resparts[1]->mass() - resparts[2]->mass()) / (resparts[1]->mass() + resparts[2]->mass());
+    //   if (mass_asymm < 0.1) {
+    //     fjlabel.replace(fjlabel.find("H_WW"), 4, "H_WxWx");
+    //   } else {
+    //     fjlabel.replace(fjlabel.find("H_WW"), 4, "H_WxWxStar");
+    //   }
+    //   if (debug_) std::cout << "V masses: " << resparts[1]->mass() << " " << resparts[2]->mass() << " Asymm: " << mass_asymm << std::endl;
+    // }
+    // if (fjlabel.rfind("H_ZZ", 0) == 0 && isHVV2DVarMassSample_) {
+    //   float mass_asymm = std::abs(resparts[1]->mass() - resparts[2]->mass()) / (resparts[1]->mass() + resparts[2]->mass());
+    //   if (mass_asymm < 0.1) {
+    //     fjlabel.replace(fjlabel.find("H_ZZ"), 4, "H_ZxZx");
+    //   } else {
+    //     fjlabel.replace(fjlabel.find("H_ZZ"), 4, "H_ZxZxStar");
+    //   }
+    //   if (debug_) std::cout << "V masses: " << resparts[1]->mass() << " " << resparts[2]->mass() << " Asymm: " << mass_asymm << std::endl;
+    // }
     if (debug_) {
       std::cout << ">> debug fjlabel: " << fjlabel << "  " << std::endl;
       std::cout << "   resonance parts: "; for (auto& p: resparts) {std::cout << p->pdgId() << " ";} std::cout << std::endl;
       std::cout << "   parts: "; for (auto& p: parts) {std::cout << p->pdgId() << " ";} std::cout << std::endl;
     }
   
-    data.fill<int>("scoutfj_isTop", fjlabel.rfind("Top_", 0) == 0);
-    data.fill<int>("scoutfj_isW",   fjlabel.rfind("W_", 0) == 0);
-    data.fill<int>("scoutfj_isZ",   fjlabel.rfind("Z_", 0) == 0);
-    data.fill<int>("scoutfj_isH2p", fjlabel.rfind("H_", 0) == 0 && !fjlabel.rfind("H_WW_", 0) == 0 && !fjlabel.rfind("H_WxWx_", 0) == 0 && !fjlabel.rfind("H_WxWxStar_", 0) == 0 && !fjlabel.rfind("H_ZZ_", 0) == 0 && !fjlabel.rfind("H_ZxZx_", 0) == 0 && !fjlabel.rfind("H_ZxZxStar_", 0) == 0);
-    data.fill<int>("scoutfj_isHWW", fjlabel.rfind("H_WW_", 0) == 0 || fjlabel.rfind("H_WxWx_", 0) == 0 || fjlabel.rfind("H_WxWxStar_", 0) == 0);
-    data.fill<int>("scoutfj_isHZZ", fjlabel.rfind("H_ZZ_", 0) == 0 || fjlabel.rfind("H_ZxZx_", 0) == 0 || fjlabel.rfind("H_ZxZxStar_", 0) == 0);
+    // data.fill<int>("scoutfj_isTop", fjlabel.rfind("Top_", 0) == 0);
+    // data.fill<int>("scoutfj_isW",   fjlabel.rfind("W_", 0) == 0);
+    // data.fill<int>("scoutfj_isZ",   fjlabel.rfind("Z_", 0) == 0);
+    // data.fill<int>("scoutfj_isH2p", fjlabel.rfind("H_", 0) == 0 && !fjlabel.rfind("H_WW_", 0) == 0 && !fjlabel.rfind("H_WxWx_", 0) == 0 && !fjlabel.rfind("H_WxWxStar_", 0) == 0 && !fjlabel.rfind("H_ZZ_", 0) == 0 && !fjlabel.rfind("H_ZxZx_", 0) == 0 && !fjlabel.rfind("H_ZxZxStar_", 0) == 0);
+    // data.fill<int>("scoutfj_isHWW", fjlabel.rfind("H_WW_", 0) == 0 || fjlabel.rfind("H_WxWx_", 0) == 0 || fjlabel.rfind("H_WxWxStar_", 0) == 0);
+    // data.fill<int>("scoutfj_isHZZ", fjlabel.rfind("H_ZZ_", 0) == 0 || fjlabel.rfind("H_ZxZx_", 0) == 0 || fjlabel.rfind("H_ZxZxStar_", 0) == 0);
     data.fill<int>("scoutfj_isQCD", fjlabel.rfind("QCD_", 0) == 0);
+    data.fill<int>("scoutfj_isUpsilon", fjlabel.rfind("Upsilon_", 0) == 0);
   
     // find the label index
     int label_index = -1;
@@ -400,6 +404,7 @@ bool ScoutFatJetCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const J
   }
 
 
+  std::cout << "Scouting return true" << std::endl;
   return true;
 }
 

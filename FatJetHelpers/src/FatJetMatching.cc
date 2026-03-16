@@ -38,7 +38,14 @@ void FatJetMatching::flavorLabel(const pat::Jet* jet,
     processed_.insert(gp);
 
     auto pdgid = std::abs(gp->pdgId());
-    if (pdgid == ParticleID::p_t){
+    if (pdgid == ParticleID::p_Upsilon1S || pdgid == ParticleID::p_Upsilon2S || pdgid == ParticleID::p_Upsilon3S){
+      clearResult();
+      upsilon_label(jet, gp, distR);
+      if (getResult().label != "Invalid"){
+        return;
+      }
+    }
+    else if (pdgid == ParticleID::p_t){
       clearResult();
       top_label(jet, gp, genParticles, distR);
       if (getResult().label != "Invalid"){
@@ -1339,7 +1346,7 @@ void FatJetMatching::qcd_label(const pat::Jet* jet, const reco::GenParticleColle
   for (const auto &gp : genParticles){
     if (gp.status() != 23) continue;
     auto pdgid = std::abs(gp.pdgId());
-    if (!(pdgid<ParticleID::p_t || pdgid==ParticleID::p_g)) continue;
+    if (!(pdgid<ParticleID::p_t || pdgid==ParticleID::p_g)) continue;  
     auto dr = reco::deltaR(gp, *jet);
     if (dr<distR && dr<minDR){
       minDR = dr;
@@ -1370,3 +1377,53 @@ void FatJetMatching::qcd_label(const pat::Jet* jet, const reco::GenParticleColle
   }
 
 }
+
+
+void FatJetMatching::upsilon_label(const pat::Jet* jet, const reco::GenParticle *parton, double distR)
+{
+
+  auto upsilon = getFinal(parton);
+  getResult().resParticles.push_back(upsilon);
+  if (debug_){
+    using namespace std;
+    cout << "jet: " << jet->polarP4() << endl;
+    cout << "Upsilon:   "; printGenParticleInfo(upsilon, -1);
+  }
+
+  auto upsilondaus = getDaughters(upsilon);
+  if (upsilondaus.size() < 3) throw std::logic_error("[FatJetMatching::upsilon_label] Upsilon decay has less than 3 daughters!");
+  
+  auto pdgid_dau1 = std::abs(upsilondaus.at(0)->pdgId());
+  auto pdgid_dau2 = std::abs(upsilondaus.at(1)->pdgId());
+  auto pdgid_dau3 = std::abs(upsilondaus.at(2)->pdgId());
+  
+  if ((reco::deltaR(jet->p4(), upsilondaus.at(0)->p4()) >= distR) || (reco::deltaR(jet->p4(), upsilondaus.at(1)->p4()) >= distR) || (reco::deltaR(jet->p4(), upsilondaus.at(2)->p4()) >= distR)){
+    getResult().label = "Invalid";
+    return;
+  }
+ 
+  getResult().particles.push_back(upsilondaus.at(0));
+  getResult().particles.push_back(upsilondaus.at(1));
+  getResult().particles.push_back(upsilondaus.at(2));
+
+  if (pdgid_dau1 == ParticleID::p_g and pdgid_dau2 == ParticleID::p_g and pdgid_dau3 == ParticleID::p_g) {
+      getResult().label = "Upsilon_ggg";
+  } 
+  else { 
+      getResult().label = "Upsilon_other";	
+  }
+ 
+  if (debug_){
+    using namespace std;
+    cout << "deltaR(jet, Upsilon-dau1)    : " << reco::deltaR(jet->p4(), upsilondaus.at(0)->p4()) << endl;
+    cout << "pdgid(Upsilon-dau1)          : " << upsilondaus.at(0)->pdgId() << endl;
+    cout << "deltaR(jet, Upsilon-dau2)    : " << reco::deltaR(jet->p4(), upsilondaus.at(1)->p4()) << endl;
+    cout << "pdgid(Upsilon-dau2)          : " << upsilondaus.at(1)->pdgId() << endl;
+    cout << "deltaR(jet, Upsilon-dau3)    : " << reco::deltaR(jet->p4(), upsilondaus.at(2)->p4()) << endl;
+    cout << "pdgid(Upsilon-dau3)          : " << upsilondaus.at(2)->pdgId() << endl;
+  }
+
+  return; 
+}
+
+

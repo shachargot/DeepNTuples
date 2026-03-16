@@ -35,6 +35,7 @@ enum PdgId { p_unknown, p_d, p_u, p_s, p_c, p_b, p_t, p_bprime, p_tprime,
   p_xib0 = 5232, p_omegabminus = 5332,
   p_Hbsm = 5000003,
   p_LQbsm = 9000002,
+  p_Upsilon1S = 553, p_Upsilon2S = 100553, p_Upsilon3S = 200553
 };
 }
 
@@ -69,6 +70,8 @@ private:
   void higgs_ZZ_label(const pat::Jet* jet, std::vector<const reco::GenParticle*>& hVV_daughters, double distR);
   void higgs_WHorZH_label(const pat::Jet* jet, std::vector<const reco::GenParticle*>& hVV_daughters, double distR);
   void qcd_label(const pat::Jet *jet, const reco::GenParticleCollection& genParticles, double distR);
+  void upsilon_label(const pat::Jet *jet, const reco::GenParticle *parton, double distR);
+
 
 
 private:

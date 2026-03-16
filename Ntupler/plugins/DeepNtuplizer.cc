@@ -115,6 +115,7 @@ DeepNtuplizer::~DeepNtuplizer()
 
 // ------------ method called for each event  ------------
 void DeepNtuplizer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
+  std::cout << "Event: " << iEvent.id() << std::endl; 
 
   for(auto *m : modules_){
     m->readEvent(iEvent, iSetup);

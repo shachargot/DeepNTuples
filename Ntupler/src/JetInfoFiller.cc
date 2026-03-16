@@ -13,7 +13,7 @@
 namespace deepntuples {
 
 void JetInfoFiller::readConfig(const edm::ParameterSet& iConfig, edm::ConsumesCollector && cc) {
-  minPt_ = iConfig.getUntrackedParameter<double>("jetPtMin", 150);
+  minPt_ = iConfig.getUntrackedParameter<double>("jetPtMin", 25);
   maxPt_ = iConfig.getUntrackedParameter<double>("jetPtMax", -1);
   maxAbsEta_ = iConfig.getUntrackedParameter<double>("jetAbsEtaMax", 2.4);
   isQCDSample_ = iConfig.getUntrackedParameter<bool>("isQCDSample", false);
@@ -83,7 +83,7 @@ bool JetInfoFiller::fill(const pat::Jet& jet, size_t jetidx, const JetHelper& je
   data.fill<float>("gen_pt", gen_pt);
   data.fill<float>("Delta_gen_pt", gen_pt - jet.correctedJet("Uncorrected").pt());
 
-  auto flavor = flavorDef.jet_flavour(jet);
+  auto flavor = flavorDef.jet_flavour(jet, true);
   data.fill<int>("isB", flavor==JetFlavor::B);
   data.fill<int>("isBB", flavor==JetFlavor::BB);
   data.fill<int>("isLeptonicB", flavor==JetFlavor::LeptonicB);
@@ -93,6 +93,7 @@ bool JetInfoFiller::fill(const pat::Jet& jet, size_t jetidx, const JetHelper& je
   data.fill<int>("isS", flavor==JetFlavor::S);
   data.fill<int>("isG", flavor==JetFlavor::G);
   data.fill<int>("isUndefined", flavor==JetFlavor::UNDEFINED);
+
 
   // jet variables
   data.fill<float>("jet_pt", jet.correctedJet("Uncorrected").pt());

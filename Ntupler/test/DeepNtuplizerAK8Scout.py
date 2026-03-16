@@ -6,7 +6,7 @@ options = VarParsing('analysis')
 
 options.outputFile = 'output.root'
 # options.inputFiles = '/store/cmst3/group/vhcc/sfTuples/H3ToHHToWHorZH_HToAA_MX-Var_MH-15to650/20UL17MiniAODv2/miniv2_65373-4.root' ## H->WH/ZH->aaxx
-options.inputFiles = 'file:/afs/cern.ch/user/c/coli/miniv6.root'
+options.inputFiles = 'file:/isilon/export/home/jofferma/projects/upsilon3g/UpsilonTo3Gluons/mc/SingleUpsilon/v1/run1/miniaod/job0/MiniAOD.root'
 
 options.maxEvents = -1
 
@@ -83,6 +83,7 @@ srcJets = cms.InputTag('slimmedJetsAK8') # use default fatjet collection in Mini
 ## ========== load the scouting AK8 jet reclustering task ========== ##
 ## https://github.com/cms-sw/cmssw/blob/CMSSW_15_0_0/PhysicsTools/NanoAOD/python/custom_run3scouting_cff.py
 from PhysicsTools.NanoAOD.run3scouting_cff import *
+scoutingFatPFJetRecluster.jetPtMin = 25.0
 process.scoutingFatPFJetReclusterTask = cms.Task(
     scoutingPFCandidate, # translate to reco::PFCandidate, used as input
     scoutingFatPFJetRecluster, # jet clustering
@@ -138,7 +139,7 @@ from RecoJets.Configuration.GenJetParticles_cff import genParticlesForJetsNoNu
 process.ak8GenJetsWithNu = ak8GenJets.clone(
     src='packedGenParticles',
     rParam=cms.double(jetR),
-    jetPtMin=100.0
+    jetPtMin=25.0
 )
 process.ak8GenJetsWithNuSoftDrop = process.ak8GenJetsWithNu.clone(
     useSoftDrop=cms.bool(True),
@@ -203,6 +204,7 @@ process.genJetTask = cms.Task(
 process.load("DeepNTuples.Ntupler.DeepNtuplizer_cfi")
 process.deepntuplizer.jets = srcJets
 process.deepntuplizer.useReclusteredJets = useReclusteredJets
+process.deepntuplizer.jetPtMin = cms.untracked.double(25)
 
 from RecoBTag.ONNXRuntime.pfParticleNet_cff import _pfParticleNetJetTagsAll as pfParticleNetJetTagsAll
 from RecoBTag.ONNXRuntime.pfParticleNet_cff import _pfParticleNetMassRegressionOutputs as pfParticleNetMassRegressionOutputs
