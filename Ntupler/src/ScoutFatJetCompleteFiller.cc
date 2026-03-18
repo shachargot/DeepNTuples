@@ -102,6 +102,13 @@ void ScoutFatJetCompleteFiller::book() {
   data.add<float>("scoutfj_gendau2_mass", 0);
   data.add<float>("scoutfj_gendau2_pid", 0);
   data.add<float>("scoutfj_gendau2_deltaR", 999);
+  data.add<float>("scoutfj_gendau3_pt", 0);
+  data.add<float>("scoutfj_gendau3_eta", 0);
+  data.add<float>("scoutfj_gendau3_phi", 0);
+  data.add<float>("scoutfj_gendau3_mass", 0);
+  data.add<float>("scoutfj_gendau3_pid", 0);
+  data.add<float>("scoutfj_gendau3_deltaR", 999);
+
 
   // sum of all hard particles inside a jet 
   data.add<float>("scoutfj_genparts_pt", 0);
@@ -252,29 +259,35 @@ bool ScoutFatJetCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const J
 
     // gen-matched particle (top/W/etc.)
     int resparts_size = resparts.size();
+    int parts_size = parts.size();
     data.fill<float>("scoutfj_gen_pt", resparts_size > 0 ? resparts[0]->pt() : -999);
     data.fill<float>("scoutfj_gen_eta", resparts_size > 0 ? resparts[0]->eta() : -999);
     data.fill<float>("scoutfj_gen_phi", resparts_size > 0 ? resparts[0]->phi() : -999);
     data.fill<float>("scoutfj_gen_mass", resparts_size > 0 ? resparts[0]->mass() : 0);
     data.fill<float>("scoutfj_gen_pid", resparts_size > 0 ? resparts[0]->pdgId() : 0);
-    data.fill<float>("scoutfj_gen_deltaR", resparts_size > 0 ? reco::deltaR(jet, resparts[0]->p4()) : 999);
-    data.fill<float>("scoutfj_gendau1_pt", resparts_size > 1 ? resparts[1]->pt() : -999);
-    data.fill<float>("scoutfj_gendau1_eta", resparts_size > 1 ? resparts[1]->eta() : -999);
-    data.fill<float>("scoutfj_gendau1_phi", resparts_size > 1 ? resparts[1]->phi() : -999);
-    data.fill<float>("scoutfj_gendau1_mass", resparts_size > 1 ? resparts[1]->mass() : 0);
-    data.fill<float>("scoutfj_gendau1_pid", resparts_size > 1 ? resparts[1]->pdgId() : 0);
-    data.fill<float>("scoutfj_gendau1_deltaR", resparts_size > 1 ? reco::deltaR(jet, resparts[1]->p4()) : 999);
-    data.fill<float>("scoutfj_gendau2_pt", resparts_size > 2 ? resparts[2]->pt() : -999);
-    data.fill<float>("scoutfj_gendau2_eta", resparts_size > 2 ? resparts[2]->eta() : -999);
-    data.fill<float>("scoutfj_gendau2_phi", resparts_size > 2 ? resparts[2]->phi() : -999);
-    data.fill<float>("scoutfj_gendau2_mass", resparts_size > 2 ? resparts[2]->mass() : 0);
-    data.fill<float>("scoutfj_gendau2_pid", resparts_size > 2 ? resparts[2]->pdgId() : 0);
-    data.fill<float>("scoutfj_gendau2_deltaR", resparts_size > 2 ? reco::deltaR(jet, resparts[2]->p4()) : 999);
+    data.fill<float>("scoutfj_gen_deltaR", parts_size > 0 ? reco::deltaR(jet, parts[0]->p4()) : 999);
+    data.fill<float>("scoutfj_gendau1_pt", parts_size > 0 ? parts[0]->pt() : -999);
+    data.fill<float>("scoutfj_gendau1_eta", parts_size > 0 ? parts[0]->eta() : -999);
+    data.fill<float>("scoutfj_gendau1_phi", parts_size > 0 ? parts[0]->phi() : -999);
+    data.fill<float>("scoutfj_gendau1_mass", parts_size > 0 ? parts[0]->mass() : 0);
+    data.fill<float>("scoutfj_gendau1_pid", parts_size > 0 ? parts[0]->pdgId() : 0);
+    data.fill<float>("scoutfj_gendau1_deltaR", parts_size > 0 ? reco::deltaR(jet, parts[0]->p4()) : 999);
+    data.fill<float>("scoutfj_gendau2_pt", parts_size > 1 ? parts[1]->pt() : -999);
+    data.fill<float>("scoutfj_gendau2_eta", parts_size > 1 ? parts[1]->eta() : -999);
+    data.fill<float>("scoutfj_gendau2_phi", parts_size > 1 ? parts[1]->phi() : -999);
+    data.fill<float>("scoutfj_gendau2_mass", parts_size > 1 ? parts[1]->mass() : 0);
+    data.fill<float>("scoutfj_gendau2_pid", parts_size > 1 ? parts[1]->pdgId() : 0);
+    data.fill<float>("scoutfj_gendau2_deltaR", parts_size > 1 ? reco::deltaR(jet, parts[1]->p4()) : 999);
+    data.fill<float>("scoutfj_gendau3_pt", parts_size > 2 ? parts[2]->pt() : -999);
+    data.fill<float>("scoutfj_gendau3_eta", parts_size > 2 ? parts[2]->eta() : -999);
+    data.fill<float>("scoutfj_gendau3_phi", parts_size > 2 ? parts[2]->phi() : -999);
+    data.fill<float>("scoutfj_gendau3_mass", parts_size > 2 ? parts[2]->mass() : 0);
+    data.fill<float>("scoutfj_gendau3_pid", parts_size > 2 ? parts[2]->pdgId() : 0);
+    data.fill<float>("scoutfj_gendau3_deltaR", parts_size > 2 ? reco::deltaR(jet, parts[2]->p4()) : 999);
 
     // sum of all hard particles inside a jet
     ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double> > sumP4(0,0,0,0);
     for (auto& p: parts) sumP4 += p->p4();
-    int parts_size = parts.size();
     data.fill<float>("scoutfj_genparts_pt", sumP4.pt());
     data.fill<float>("scoutfj_genparts_eta", sumP4.eta());
     data.fill<float>("scoutfj_genparts_phi", sumP4.phi());
@@ -283,6 +296,7 @@ bool ScoutFatJetCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const J
     data.fill<float>("scoutfj_genpart2_pid", parts_size > 1 ? parts[1]->pdgId() : 0);
     data.fill<float>("scoutfj_genpart3_pid", parts_size > 2 ? parts[2]->pdgId() : 0);
     data.fill<float>("scoutfj_genpart4_pid", parts_size > 3 ? parts[3]->pdgId() : 0);
+    
 
     if (debug_) {
       std::cout << "   gen resonance mass " << (resparts_size > 0 ? resparts[0]->mass() : 0) << std::endl;
@@ -404,7 +418,6 @@ bool ScoutFatJetCompleteFiller::fill(const pat::Jet& jet, size_t jetidx, const J
   }
 
 
-  std::cout << "Scouting return true" << std::endl;
   return true;
 }
 

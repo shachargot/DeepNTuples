@@ -53,7 +53,7 @@ private:
   std::string fjTagInfoName;
   std::string fjName;
 
-  bool debug_ = true;
+  bool debug_ = false;
 
   edm::EDGetTokenT<reco::GenParticleCollection> genParticlesToken_;
   edm::Handle<reco::GenParticleCollection> genParticlesHandle;

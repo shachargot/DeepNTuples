@@ -122,7 +122,6 @@ bool SVFiller::fill(const pat::Jet& jet, size_t jetidx, const JetHelper& jet_hel
     data.fillMulti<float>("sv_energy", sv->energy());
   }
 
-  std::cout << "SVFiller return true" << std::endl;
   return true;
 }
 

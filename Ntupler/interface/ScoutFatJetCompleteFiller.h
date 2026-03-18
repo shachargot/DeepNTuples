@@ -39,7 +39,7 @@ private:
   bool isTrainSample_ = false;
   bool isMDTagger_ = true;
 
-  bool debug_ = true;
+  bool debug_ = false;
 
   // value maps (for aux features of scouting jets and PF cands)
   std::map<std::string, edm::EDGetTokenT<edm::ValueMap<float>>> value_map_float_tokens_;

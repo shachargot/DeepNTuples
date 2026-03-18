@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing('analysis')
 
-options.outputFile = 'output.root'
+options.outputFile = 'DeepNTuples.root'
 # options.inputFiles = '/store/cmst3/group/vhcc/sfTuples/H3ToHHToWHorZH_HToAA_MX-Var_MH-15to650/20UL17MiniAODv2/miniv2_65373-4.root' ## H->WH/ZH->aaxx
 options.inputFiles = 'file:/isilon/export/home/jofferma/projects/upsilon3g/UpsilonTo3Gluons/mc/SingleUpsilon/v1/run1/miniaod/job0/MiniAOD.root'
 

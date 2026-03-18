@@ -16,8 +16,13 @@ scram setup $CMSSW_BASE/ORT_INSTALL/onnxruntime.xml
 
 scram b -j 8
 
+# local test
 cd Ntupler/test
 cmsRun DeepNtuplizerAK8Scout.py
+
+# condor submission:
+cd Ntupler/run/condor
+python3 make_jobs_DeepNTuples.py -miniaod [*.root] -r [directory] -run 
 ```
 
 ## Some documentation:
@@ -37,6 +42,7 @@ cmsRun DeepNtuplizerAK8Scout.py
 
 `NTupler/python/DeepNtuplizer\_cfi.py`:
 * jetMinPt changed to 25.0       (Any other changes needed?)
+* |eta| < 2.4 cut  - a few of our jets are dropped
 * Uses ParticleNet-MD tagger by default  
 
 ### Modules 
