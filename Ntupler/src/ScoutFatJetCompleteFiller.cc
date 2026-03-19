@@ -48,8 +48,8 @@ void ScoutFatJetCompleteFiller::book() {
   // data.add<int>("scoutfj_isH2p", 0);
   // data.add<int>("scoutfj_isHWW", 0);
   // data.add<int>("scoutfj_isHZZ", 0);
-  data.add<int>("scoutfj_isQCD", 0);
   data.add<int>("scoutfj_isUpsilon",0);
+  data.add<int>("scoutfj_isQCD", 0);
 
   data.add<int>("scoutfj_label", 0);
   if (labels_.empty()) {
@@ -65,15 +65,15 @@ void ScoutFatJetCompleteFiller::book() {
       // for (auto& l: labelHZZ_)  labels_.push_back("H_ZxZxStar_" + l);
       // for (auto& l: labelH2pExt_) labels_.push_back("Hext_" + l);
       // for (auto& l: labelHHVExt_) labels_.push_back("H_HVext_" + l);
-      for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
       for (auto& l: labelUpsilon_)  labels_.push_back("Upsilon_" + l);
+      for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
     } else {
       // for (auto& l: labelTop_)  labels_.push_back("Top_" + l);
       // for (auto& l: labelH2p_)  labels_.push_back("H_" + l);
       // for (auto& l: labelW_)    labels_.push_back("W_" + l);
       // for (auto& l: labelZ_)    labels_.push_back("Z_" + l);
-      for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
       for (auto& l: labelUpsilon_)  labels_.push_back("Upsilon_" + l);
+      for (auto& l: labelQCD_)  labels_.push_back("QCD_" + l);
     }
 
     if (debug_) {

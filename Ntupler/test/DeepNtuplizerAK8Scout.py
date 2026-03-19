@@ -84,6 +84,7 @@ srcJets = cms.InputTag('slimmedJetsAK8') # use default fatjet collection in Mini
 ## https://github.com/cms-sw/cmssw/blob/CMSSW_15_0_0/PhysicsTools/NanoAOD/python/custom_run3scouting_cff.py
 from PhysicsTools.NanoAOD.run3scouting_cff import *
 scoutingFatPFJetRecluster.jetPtMin = 25.0
+process.scoutingFatPFJetReclusterSoftDrop.jetPtMin = 25.0
 process.scoutingFatPFJetReclusterTask = cms.Task(
     scoutingPFCandidate, # translate to reco::PFCandidate, used as input
     scoutingFatPFJetRecluster, # jet clustering
